@@ -58,6 +58,7 @@ public class SQLQueries implements Queries {
     }
 
     final static class Patterns {
+
         static final String TABLE_NAME_PLACEHOLDER = "<tableName>";
         static final String COLUMN_NAME_PLACEHOLDER = "<columnName>";
 
@@ -72,7 +73,7 @@ public class SQLQueries implements Queries {
                 "(username, email, regDT, password, deletingDT) VALUES (?, ?, ?, ?, ?)";
 
         static final String FIND_FAVOURITES_QUERY = "SELECT * FROM favourite WHERE username = ?";
- 		static final String FIND_USERS_QUERY = "SELECT * FROM favourites.user";
+ 		static final String FIND_USERS_QUERY = "SELECT * FROM user";
 
  		static String replacePlaceholders(DomainObject domain, String sourceQuery) {
  		    return sourceQuery.replace(TABLE_NAME_PLACEHOLDER, domain.getEntityName());
