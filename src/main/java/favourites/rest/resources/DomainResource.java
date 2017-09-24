@@ -1,8 +1,12 @@
 package favourites.rest.resources;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import favourites.domain.DomainObject;
+import org.hibernate.validator.constraints.NotEmpty;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -23,6 +27,12 @@ public abstract class DomainResource implements Serializable {
         this.isDeleted = isDeleted;
     }
 
+    public DomainResource(DomainObject domain) {
+        this.uid = domain.getUid();
+        this.deletingDT = domain.getDeletingDT();
+        this.isDeleted = domain.isDeleted();
+    }
+
     @JsonProperty("uid")
     public String getUid() {
         return uid;
@@ -37,4 +47,8 @@ public abstract class DomainResource implements Serializable {
     public boolean isDeleted() {
         return isDeleted;
     }
+
+    @JsonIgnore
+    public abstract DomainObject convertToDomainObject(boolean isNew, @NotNull @NotEmpty String username);
+
 }

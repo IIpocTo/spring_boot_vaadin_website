@@ -1,11 +1,15 @@
 package favourites.rest.resources;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import favourites.domain.DomainObject;
+import favourites.domain.Favourite;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class FavouriteResource extends DomainResource {
 
     private static final long serialVersionUID = 743532432432432432L;
@@ -51,6 +55,14 @@ public class FavouriteResource extends DomainResource {
     @JsonProperty("addingDT")
     public LocalDateTime getAddingDT() {
         return addingDT;
+    }
+
+    @Override
+    public DomainObject convertToDomainObject(boolean isNew, String username) {
+        final Favourite favourite;
+        if (isNew) favourite = new Favourite(this.link, this.name, null);
+        else favourite = new Favourite(this.name, this.link, getUid(), username, this.addingDT, getDeletingDT());
+        return favourite;
     }
 
 }
