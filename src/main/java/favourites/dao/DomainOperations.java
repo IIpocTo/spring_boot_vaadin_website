@@ -1,15 +1,17 @@
 package favourites.dao;
 
 import favourites.domain.DomainObject;
+import favourites.domain.EntityType;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
-public interface DomainOperations<T extends DomainObject> {
-    void save(@NotNull T domain);
-    void update(@NotNull T domain, @NotNull @NotEmpty String field, @NotNull Object fieldValue);
-    boolean remove(@NotNull T entity);
-    T findById(boolean isFavourite, @NotNull String uid);
-    @NotNull List<? extends T> findAll(@NotNull @NotEmpty String username);
+public interface DomainOperations {
+    void save(@NotNull DomainObject domain);
+    void update(@NotNull EntityType entityType, @NotNull DomainObject current);
+    boolean remove(@NotNull DomainObject entity);
+    boolean remove(@NotNull EntityType entityType, @NotNull String key);
+    <T extends DomainObject> T findById(@NotNull EntityType entityType, @NotNull String uid);
+    @NotNull List<? extends DomainObject> findAll(@NotNull @NotEmpty String username);
 }

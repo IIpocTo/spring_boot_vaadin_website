@@ -13,8 +13,8 @@ import org.springframework.stereotype.Component;
 public class SQLQueries implements Queries {
 
     @Override
-    public String getDeleteQuery(DomainObject domain) {
-        return Patterns.replacePlaceholders(domain, Patterns.DELETE_QUERY);
+    public String getDeleteQuery(String entityType) {
+        return Patterns.replaceDeletePlaceholders(entityType, Patterns.DELETE_QUERY);
     }
 
     @Override
@@ -82,6 +82,10 @@ public class SQLQueries implements Queries {
         static String replaceUpdatePlaceholders(DomainObject domain, String columnName, String sourceQuery) {
  		    return sourceQuery.replace(TABLE_NAME_PLACEHOLDER, domain.getEntityName())
                     .replace(COLUMN_NAME_PLACEHOLDER, columnName);
+        }
+
+        static String replaceDeletePlaceholders(String entityType, String sourceQuery) {
+ 		    return sourceQuery.replace(TABLE_NAME_PLACEHOLDER, entityType);
         }
 
     }

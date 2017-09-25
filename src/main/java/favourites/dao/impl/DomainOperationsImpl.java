@@ -4,6 +4,7 @@ import favourites.dao.DomainOperations;
 import favourites.dao.Queries;
 import favourites.dao.mappers.DomainMapper;
 import favourites.domain.DomainObject;
+import favourites.domain.EntityType;
 import favourites.domain.Favourite;
 import favourites.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
-public class DomainOperationsImpl implements DomainOperations<DomainObject> {
+public class DomainOperationsImpl implements DomainOperations {
 
     private final JdbcTemplate jdbcTemplate;
     private final Queries queries;
@@ -64,17 +65,22 @@ public class DomainOperationsImpl implements DomainOperations<DomainObject> {
     }
 
     @Override
-    public void update(DomainObject domain, String field, Object fieldValue) {
-        jdbcTemplate.update(queries.getUpdateQuery(domain, field), ps -> paramTypeSetter(ps, fieldValue, 1));
+    public void update(EntityType entityType, DomainObject current) {
+
     }
 
     @Override
     public boolean remove(DomainObject entity) {
-        return jdbcTemplate.update(queries.getDeleteQuery(entity), ps -> ps.setString(1, entity.getUid())) > 0;
+        return remove(EntityType.value(entity.getEntityName()), entity.getUid());
     }
 
     @Override
-    public DomainObject findById(boolean isFavourite, String uid) {
+    public boolean remove(EntityType entityType, String key) {
+        return jdbcTemplate.update(queries.getDeleteQuery(entityType.getName()), ps -> ps.setString(1, key)) > 0;
+    }
+
+    @Override
+    public <T extends DomainObject> T findById(EntityType entityType, String uid) {
         return null;
     }
 

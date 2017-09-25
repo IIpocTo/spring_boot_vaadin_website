@@ -9,7 +9,7 @@ import javax.validation.constraints.NotNull;
 
 public interface Queries {
 
-    @NotNull @NotEmpty String getDeleteQuery(@NotNull DomainObject domain);
+    @NotNull @NotEmpty String getDeleteQuery(@NotNull String entityType);
     @NotNull @NotEmpty String getFindQuery(@NotNull DomainObject domain);
     @NotNull @NotEmpty String getUpdateQuery(@NotNull DomainObject domain, @NotNull @NotEmpty String columnName);
 

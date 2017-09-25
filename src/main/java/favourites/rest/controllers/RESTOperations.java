@@ -11,8 +11,8 @@ public interface RESTOperations {
     String RESOURCE_URI = "/favourites/{entityType}/{uid}";
 
     DomainResource readById(@NotNull String id, @NotNull String entityType);
-    @NotNull List<DomainResource> readAll(@NotNull String entityType);
-    void create(@NotNull String entityType, @NotNull DomainResource resource);
+    @NotNull List<DomainResource> readAll(@NotNull String entityType, @NotNull String username);
+    void create(@NotNull String entityType, @NotNull DomainResource resource, @NotNull String username);
     @NotNull DomainResource update(@NotNull String entityType, @NotNull DomainResource resource);
     void delete(@NotNull String entityType, @NotNull String uid);
 

@@ -1,6 +1,7 @@
 package favourites.rest.controllers;
 
 import favourites.rest.resources.DomainResource;
+import favourites.user.CurrentUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,10 +22,12 @@ import java.util.List;
 public class RESTController {
 
     private final RESTOperations operations;
+    private final CurrentUser currentUser;
 
     @Autowired
-    public RESTController(RESTOperations operations) {
+    public RESTController(RESTOperations operations, CurrentUser currentUser) {
         this.operations = operations;
+        this.currentUser = currentUser;
     }
 
     @GetMapping(RESTOperations.RESOURCE_URI)
@@ -38,13 +41,13 @@ public class RESTController {
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
     public List<DomainResource> readAll(@PathVariable("entityType") String entityType) {
-        return operations.readAll(entityType);
+        return operations.readAll(entityType, currentUser.getUsername());
     }
 
     @PostMapping(RESTOperations.BASE_URI)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void create(@PathVariable("entityType") String entityType, @RequestBody DomainResource resource) {
-        operations.create(entityType, resource);
+        operations.create(entityType, resource, currentUser.getUsername());
     }
 
     @RequestMapping(value = RESTOperations.RESOURCE_URI, method = RequestMethod.PUT)

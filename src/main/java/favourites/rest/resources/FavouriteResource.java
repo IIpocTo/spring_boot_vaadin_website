@@ -32,6 +32,15 @@ public class FavouriteResource extends DomainResource {
         this.addingDT = addingDT;
     }
 
+    public FavouriteResource(Favourite favourite) {
+        super(favourite);
+        this.name = favourite.getName();
+        this.addingDT = favourite.getAddingDT();
+        this.link = favourite.getLink();
+        this.order = favourite.getOrder();
+        this.counter = favourite.getCounter();
+    }
+
     @JsonProperty("name")
     public String getName() {
         return name;
