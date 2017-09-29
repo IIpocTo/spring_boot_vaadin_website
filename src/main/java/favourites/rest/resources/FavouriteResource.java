@@ -1,5 +1,6 @@
 package favourites.rest.resources;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import favourites.domain.DomainObject;
@@ -20,6 +21,7 @@ public class FavouriteResource extends DomainResource {
     @NotNull private final Integer order;
     @NotNull private final LocalDateTime addingDT;
 
+    @JsonCreator
     public FavouriteResource(@JsonProperty("uid") String uid, @JsonProperty("deletingDT") LocalDateTime deletingDT,
                              @JsonProperty("isDeleted") boolean isDeleted, @JsonProperty("name") String name,
                              @JsonProperty("link") String link, @JsonProperty("addingDT") Long counter,

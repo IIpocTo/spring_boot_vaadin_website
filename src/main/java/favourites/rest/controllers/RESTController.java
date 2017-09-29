@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.inject.Provider;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
@@ -22,10 +23,10 @@ import java.util.List;
 public class RESTController {
 
     private final RESTOperations operations;
-    private final CurrentUser currentUser;
+    private final Provider<CurrentUser> currentUser;
 
     @Autowired
-    public RESTController(RESTOperations operations, CurrentUser currentUser) {
+    public RESTController(RESTOperations operations, Provider<CurrentUser> currentUser) {
         this.operations = operations;
         this.currentUser = currentUser;
     }
@@ -41,13 +42,13 @@ public class RESTController {
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
     public List<DomainResource> readAll(@PathVariable("entityType") String entityType) {
-        return operations.readAll(entityType, currentUser.getUsername());
+        return operations.readAll(entityType, currentUser.get().getUsername());
     }
 
     @PostMapping(RESTOperations.BASE_URI)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void create(@PathVariable("entityType") String entityType, @RequestBody DomainResource resource) {
-        operations.create(entityType, resource, currentUser.getUsername());
+        operations.create(entityType, resource, currentUser.get().getUsername());
     }
 
     @RequestMapping(value = RESTOperations.RESOURCE_URI, method = RequestMethod.PUT)

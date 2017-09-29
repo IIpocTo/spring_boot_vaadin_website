@@ -22,6 +22,8 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-security")
     compile("org.springframework.boot:spring-boot-starter-jdbc")
     compile("org.springframework.boot:spring-boot-starter-mail")
+    compile('commons-dbcp:commons-dbcp:1.4')
+    compile('javax.inject:javax.inject:1')
     runtime("org.postgresql:postgresql:42.1.4")
     testCompile('org.springframework.boot:spring-boot-starter-test')
 }

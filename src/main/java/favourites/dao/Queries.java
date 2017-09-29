@@ -26,4 +26,15 @@ public interface Queries {
     @NotNull FavouriteQueries getFavouriteQueries();
     @NotNull UserQueries getUserQueries();
 
+    interface SchemaBuilder {
+        @NotNull @NotEmpty
+        String getQueryToCreateTableFavourites();
+        @NotNull @NotEmpty
+        String getQueryToCreateTableUsers();
+        @NotNull @NotEmpty
+        String getQueryToCreateIndex(@NotNull @NotEmpty String tableName, @NotNull @NotEmpty String columnName);
+    }
+
+    @NotNull SchemaBuilder getSchemaBuilder();
+
 }
