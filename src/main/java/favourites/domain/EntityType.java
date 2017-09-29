@@ -6,7 +6,7 @@ public enum EntityType {
     FAVOURITE("favourite"),
     USER("user_t");
 
-    protected final String name;
+    private final String name;
 
     EntityType(@NotNull String name) {
         this.name = name;

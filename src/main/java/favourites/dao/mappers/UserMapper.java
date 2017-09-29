@@ -1,6 +1,7 @@
 package favourites.dao.mappers;
 
 import favourites.domain.User;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Component;
 
 import java.sql.ResultSet;
@@ -12,6 +13,7 @@ public class UserMapper extends DomainMapper<User> {
     private static final String EMAIL_FIELD = "email";
  	private static final String REG_DT_FIELD = "regDate";
  	private static final String PASSWORD_FIELD = "password";
+    private static final String LAST_LOGGED_FIELD = "lastLogged";
 
     @Override
     public User mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -20,7 +22,13 @@ public class UserMapper extends DomainMapper<User> {
                 rs.getString(PASSWORD_FIELD));
         user.setEmail(rs.getString(EMAIL_FIELD));
         user.setRegDate(rs.getDate(REG_DT_FIELD).toLocalDate());
+        user.setLastLogged(getLocalDateTimeValue(rs.getTimestamp(LAST_LOGGED_FIELD)));
         return user;
+    }
+
+    @Override
+    public User extractData(ResultSet rs) throws SQLException, DataAccessException {
+        return mapRow(rs, 0);
     }
 
 }

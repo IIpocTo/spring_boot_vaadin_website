@@ -8,7 +8,7 @@ public abstract class DomainObject {
     private boolean isNew;
     private boolean isDeleted;
     private LocalDateTime deletingDT;
-    protected String uid;
+    @NotNull protected String uid;
 
     protected DomainObject(String uid, LocalDateTime deletingDT) {
         this.deletingDT = deletingDT;

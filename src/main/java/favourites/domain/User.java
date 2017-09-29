@@ -1,21 +1,24 @@
 package favourites.domain;
 
+import org.hibernate.validator.constraints.Email;
+
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class User extends DomainObject {
 
-    private static final String ENTITY_NAME = "user";
-
-    private String email;
-    private LocalDate regDate;
-    private String password;
+    @NotNull @Email private String email;
+    @NotNull private LocalDate regDate;
+    @NotNull private String password;
+    @NotNull private LocalDateTime lastLogged;
 
     public User(String name, String email, String password) {
         super(name);
         this.password = password;
         this.regDate = LocalDate.now();
         this.email = email;
+        this.lastLogged = LocalDateTime.now();
     }
 
     public User(String name, LocalDateTime deletingDT, String password) {
@@ -43,6 +46,14 @@ public class User extends DomainObject {
         return password;
     }
 
+    public LocalDateTime getLastLogged() {
+        return lastLogged;
+    }
+
+    public void setLastLogged(LocalDateTime lastLogged) {
+        this.lastLogged = lastLogged;
+    }
+
     @Override
     public String getUid() {
         return uid;
@@ -50,7 +61,7 @@ public class User extends DomainObject {
 
     @Override
     public String getEntityName() {
-        return ENTITY_NAME;
+        return EntityType.USER.getName();
     }
 
 }

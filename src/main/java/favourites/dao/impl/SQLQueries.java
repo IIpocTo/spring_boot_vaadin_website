@@ -1,7 +1,7 @@
 package favourites.dao.impl;
 
 import favourites.dao.Queries;
-import favourites.domain.DomainObject;
+import favourites.domain.EntityType;
 import favourites.domain.Favourite;
 import favourites.domain.User;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
@@ -13,18 +13,18 @@ import org.springframework.stereotype.Component;
 public class SQLQueries implements Queries {
 
     @Override
-    public String getDeleteQuery(String entityType) {
-        return Patterns.replaceDeletePlaceholders(entityType, Patterns.DELETE_QUERY);
+    public String getDeleteQuery(EntityType entity) {
+        return Patterns.replacePlaceholders(entity, Patterns.DELETE_QUERY);
     }
 
     @Override
-    public String getFindQuery(DomainObject domain) {
-        return Patterns.replacePlaceholders(domain, Patterns.FIND_QUERY);
+    public String getFindQuery(EntityType entity) {
+        return Patterns.replacePlaceholders(entity, Patterns.FIND_QUERY);
     }
 
     @Override
-    public String getUpdateQuery(DomainObject domain, String columnName) {
-        return Patterns.replaceUpdatePlaceholders(domain, columnName, Patterns.UPDATE_QUERY);
+    public String getUpdateQuery(EntityType entity, String columnName) {
+        return Patterns.replaceUpdatePlaceholders(entity, columnName, Patterns.UPDATE_QUERY);
     }
 
     @Override
@@ -104,22 +104,18 @@ public class SQLQueries implements Queries {
 
         static final String CREATE_USER_TABLE = "CREATE TABLE IF NOT EXISTS USER_T (UID varchar(64) NOT NULL, "
                 + "EMAIL varchar(128) NOT NULL, PASSWORD varchar(64) NOT NULL, REG_DATE date NOT NULL, "
-                + "DELETING_DT timestamp NULL, PRIMARY KEY (UID));";
+                + "DELETING_DT timestamp NULL, LAST_LOGGED timestamp NOT NULL, PRIMARY KEY (UID));";
 
         static final String CREATE_INDEX_TABLE = "CREATE INDEX IF NOT EXISTS idx_" + COLUMN_NAME_PLACEHOLDER +
                 " ON " + TABLE_NAME_PLACEHOLDER + " (" + COLUMN_NAME_PLACEHOLDER + ");";
 
- 		static String replacePlaceholders(DomainObject domain, String sourceQuery) {
- 		    return sourceQuery.replace(TABLE_NAME_PLACEHOLDER, domain.getEntityName());
+ 		static String replacePlaceholders(EntityType entity, String sourceQuery) {
+ 		    return sourceQuery.replace(TABLE_NAME_PLACEHOLDER, entity.getName());
         }
 
-        static String replaceUpdatePlaceholders(DomainObject domain, String columnName, String sourceQuery) {
- 		    return sourceQuery.replace(TABLE_NAME_PLACEHOLDER, domain.getEntityName())
+        static String replaceUpdatePlaceholders(EntityType entity, String columnName, String sourceQuery) {
+ 		    return sourceQuery.replace(TABLE_NAME_PLACEHOLDER, entity.getName())
                     .replace(COLUMN_NAME_PLACEHOLDER, columnName);
-        }
-
-        static String replaceDeletePlaceholders(String entityType, String sourceQuery) {
- 		    return sourceQuery.replace(TABLE_NAME_PLACEHOLDER, entityType);
         }
 
         static String replaceDdlPlaceholders(String tableName, String columnName, String sourceQuery) {

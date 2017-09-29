@@ -1,6 +1,7 @@
 package favourites.dao.mappers;
 
 import favourites.domain.Favourite;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Component;
 
 import java.sql.ResultSet;
@@ -13,7 +14,7 @@ public class FavouriteMapper extends DomainMapper<Favourite> {
     private static final String LINK_FIELD = "link";
     private static final String ADDING_DT_FIELD = "addingDT";
     private static final String USERNAME_FIELD = "username";
-    private static final String ORDER_FIELD = "order";
+    private static final String ORDER_FIELD = "order_fv";
     private static final String COUNTER_FIELD = "counter";
 
     @Override
@@ -26,6 +27,11 @@ public class FavouriteMapper extends DomainMapper<Favourite> {
         favourite.setOrder(rs.getInt(ORDER_FIELD));
         favourite.setCounter(rs.getLong(COUNTER_FIELD));
         return favourite;
+    }
+
+    @Override
+    public Favourite extractData(ResultSet rs) throws SQLException, DataAccessException {
+        return mapRow(rs, 0);
     }
 
 }

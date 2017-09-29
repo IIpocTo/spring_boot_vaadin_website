@@ -1,16 +1,15 @@
 package favourites.domain;
 
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 public class Favourite extends DomainObject {
 
-    private static final String ENTITY_NAME = "favourite";
-
-    private String name;
-    private String link;
-    private Long counter;
-    private Integer order;
-    private LocalDateTime addingDT;
+    @NotNull private String name;
+    @NotNull private String link;
+    @NotNull private Long counter;
+    @NotNull private Integer order;
+    @NotNull private LocalDateTime addingDT;
     private String userName;
 
     public Favourite(String link, String name, String username) {
@@ -80,7 +79,7 @@ public class Favourite extends DomainObject {
 
     @Override
     public String getEntityName() {
-        return ENTITY_NAME;
+        return EntityType.FAVOURITE.getName();
     }
 
 }
