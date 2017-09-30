@@ -18,7 +18,7 @@ public class SchemaGenerator {
 
     private final static String USER_TABLE_NAME = EntityType.USER.getName();
  	private final static String[] USER_INDEXED_COLUMNS =
-            new String[] { "EMAIL", "DELETING_DT" };
+            new String[] { "EMAIL", "DELETING_DT", "LAST_LOGGED" };
 
     private final JdbcTemplate jdbcTemplate;
     private final Queries queries;

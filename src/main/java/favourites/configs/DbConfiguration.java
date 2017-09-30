@@ -25,6 +25,7 @@ import javax.sql.DataSource;
 @EnableAutoConfiguration
 @EnableWebSecurity
 @EnableTransactionManagement
+@EnableScheduling
 @ComponentScan("favourites")
 @PropertySource(value = {"classpath:application.properties"})
 public class DbConfiguration {
