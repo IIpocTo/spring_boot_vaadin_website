@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface DomainOperations {
     void save(@NotNull DomainObject domain);
-    void update(@NotNull EntityType entityType, @NotNull @NotEmpty String field, Object fieldValue);
+    void update(@NotNull EntityType entityType, @NotNull DomainObject current);
     boolean remove(@NotNull EntityType entityType, @NotNull String key);
     <T extends DomainObject> T findById(@NotNull EntityType entityType, @NotNull String uid);
     @NotNull List<? extends DomainObject> findAll(@NotNull @NotEmpty String username);

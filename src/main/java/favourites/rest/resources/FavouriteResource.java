@@ -71,7 +71,7 @@ public class FavouriteResource extends DomainResource {
     @Override
     public DomainObject convertToDomainObject(boolean isNew, String username) {
         final Favourite favourite;
-        if (isNew) favourite = new Favourite(this.link, this.name, null);
+        if (isNew) favourite = new Favourite(this.link, this.name, username);
         else favourite = new Favourite(this.name, this.link, getUid(), username, this.addingDT, getDeletingDT());
         return favourite;
     }

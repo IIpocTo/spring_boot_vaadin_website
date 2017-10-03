@@ -5,6 +5,8 @@ import favourites.domain.EntityType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 import java.util.stream.Stream;
@@ -42,6 +44,7 @@ public class SchemaGenerator {
     }
 
     @PostConstruct
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void buildSchema() {
         this.generateSchemaIfNotExists();
     }

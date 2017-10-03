@@ -4,7 +4,8 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import favourites.domain.DomainObject;
-import org.hibernate.validator.constraints.NotEmpty;
+import favourites.domain.Favourite;
+import favourites.domain.User;
 
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
@@ -33,6 +34,13 @@ public abstract class DomainResource implements Serializable {
         this.isDeleted = domain.isDeleted();
     }
 
+    @JsonIgnore
+    public static @NotNull DomainResource convertToResource(@NotNull DomainObject domain) {
+        if (domain instanceof Favourite) return new FavouriteResource((Favourite) domain);
+        else if (domain instanceof User) return new UserResource((User) domain);
+        else throw new IllegalArgumentException();
+    }
+
     @JsonProperty("uid")
     public String getUid() {
         return uid;
@@ -49,6 +57,6 @@ public abstract class DomainResource implements Serializable {
     }
 
     @JsonIgnore
-    public abstract DomainObject convertToDomainObject(boolean isNew, @NotNull @NotEmpty String username);
+    public abstract @NotNull DomainObject convertToDomainObject(boolean isNew, String username);
 
 }

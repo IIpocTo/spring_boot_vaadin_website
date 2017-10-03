@@ -10,10 +10,10 @@ import java.sql.SQLException;
 @Component("userMapper")
 public class UserMapper extends DomainMapper<User> {
 
-    private static final String EMAIL_FIELD = "email";
- 	private static final String REG_DT_FIELD = "regDate";
- 	private static final String PASSWORD_FIELD = "password";
-    private static final String LAST_LOGGED_FIELD = "lastLogged";
+    public static final String EMAIL_FIELD = "email";
+    public static final String REG_DT_FIELD = "regDate";
+    public static final String PASSWORD_FIELD = "password";
+    public static final String LAST_LOGGED_FIELD = "lastLogged";
 
     @Override
     public User mapRow(ResultSet rs, int rowNum) throws SQLException {

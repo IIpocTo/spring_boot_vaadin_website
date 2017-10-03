@@ -25,7 +25,7 @@ public class RESTOperationsImpl implements RESTOperations {
 
     @Override
     public DomainResource readById(String id, String entityType) {
-        return null;
+        return DomainResource.convertToResource(domainOperations.findById(EntityType.value(entityType), id));
     }
 
     @Override
@@ -44,7 +44,8 @@ public class RESTOperationsImpl implements RESTOperations {
 
     @Override
     public DomainResource update(String entityType, DomainResource resource) {
-        return null;
+        domainOperations.update(EntityType.value(entityType), resource.convertToDomainObject(false, null));
+        return this.readById(resource.getUid(), entityType);
     }
 
     @Override

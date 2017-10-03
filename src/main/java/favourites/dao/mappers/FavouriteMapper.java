@@ -10,12 +10,12 @@ import java.sql.SQLException;
 @Component("favouriteMapper")
 public class FavouriteMapper extends DomainMapper<Favourite> {
 
-    private static final String NAME_FIELD = "name";
-    private static final String LINK_FIELD = "link";
-    private static final String ADDING_DT_FIELD = "addingDT";
-    private static final String USERNAME_FIELD = "username";
-    private static final String ORDER_FIELD = "order_fv";
-    private static final String COUNTER_FIELD = "counter";
+    public static final String NAME_FIELD = "name";
+    public static final String LINK_FIELD = "link";
+    public static final String ADDING_DT_FIELD = "addingDT";
+    public static final String USERNAME_FIELD = "username";
+    public static final String ORDER_FIELD = "order_fv";
+    public static final String COUNTER_FIELD = "counter";
 
     @Override
     public Favourite mapRow(ResultSet rs, int rowNum) throws SQLException {
