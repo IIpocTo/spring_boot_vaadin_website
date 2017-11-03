@@ -54,6 +54,11 @@ public class SQLQueries implements Queries {
             public String getFindAllUserQuery() {
                 return Patterns.FIND_USERS_QUERY;
             }
+
+            @Override
+            public String getFindAllUsersByLoggedDT() {
+                return Patterns.FIND_USERS_QUERY_BY_LOGGED_DT;
+            }
         };
     }
 
@@ -96,6 +101,7 @@ public class SQLQueries implements Queries {
 
         static final String FIND_FAVOURITES_QUERY = "SELECT * FROM favourite WHERE username = ?";
  		static final String FIND_USERS_QUERY = "SELECT * FROM user_t";
+ 		static final String FIND_USERS_QUERY_BY_LOGGED_DT = "SELECT * FROM user WHERE lastLogged < ?";
 
         static final String CREATE_FV_TABLE = "CREATE TABLE IF NOT EXISTS FAVOURITE (UID varchar(64) NOT NULL, "
                 + "NAME varchar(256) NOT NULL, LINK varchar(512) NOT NULL, ADDING_DT timestamp NOT NULL, "

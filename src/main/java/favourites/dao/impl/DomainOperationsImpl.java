@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,6 +30,7 @@ import java.util.Map;
 import java.util.Objects;
 
 @Service
+@Repository
 public class DomainOperationsImpl implements DomainOperations {
 
     private final JdbcTemplate jdbcTemplate;
@@ -154,6 +156,12 @@ public class DomainOperationsImpl implements DomainOperations {
     public List<? extends DomainObject> findAll(String username) {
         return jdbcTemplate.query(queries.getFavouriteQueries().getFindAllFavoriteQuery(),
                 new Object[] { username }, favouriteMapper);
+    }
+
+    @Override
+    public List<User> findUsers(LocalDateTime lastLogged) {
+        return jdbcTemplate.query(queries.getUserQueries().getFindAllUsersByLoggedDT(),
+                new Object[] { Timestamp.valueOf(lastLogged) }, userMapper);
     }
 
     private static void paramTypeSetter(PreparedStatement ps, Object value, int position) {

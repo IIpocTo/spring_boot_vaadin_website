@@ -21,6 +21,7 @@ public interface Queries {
     interface UserQueries {
         @NotNull @NotEmpty String getInsertUserQuery(@NotNull User user);
         @NotNull @NotEmpty String getFindAllUserQuery();
+        @NotNull @NotEmpty String getFindAllUsersByLoggedDT();
     }
 
     @NotNull FavouriteQueries getFavouriteQueries();

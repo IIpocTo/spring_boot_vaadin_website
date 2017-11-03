@@ -22,10 +22,5 @@ public class TestConfiguration {
         return new MailServiceImpl(mailProperties());
     }
 
-    @Bean
-    public static PropertySourcesPlaceholderConfigurer propertyConfigurer() {
-        return new PropertySourcesPlaceholderConfigurer();
-    }
-
 }
 
