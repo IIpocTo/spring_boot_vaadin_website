@@ -3,8 +3,10 @@ package favourites.rest.controllers;
 import favourites.dao.DomainOperations;
 import favourites.domain.EntityType;
 import favourites.domain.Favourite;
+import favourites.notification.NotificationSender;
 import favourites.rest.resources.DomainResource;
 import favourites.rest.resources.FavouriteResource;
+import favourites.rest.resources.UserResource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -17,10 +19,12 @@ import java.util.stream.Collectors;
 public class RESTOperationsImpl implements RESTOperations {
 
     private final DomainOperations domainOperations;
+    private final NotificationSender sender;
 
     @Autowired
-    public RESTOperationsImpl(DomainOperations domainOperations) {
+    public RESTOperationsImpl(DomainOperations domainOperations, NotificationSender sender) {
         this.domainOperations = domainOperations;
+        this.sender = sender;
     }
 
     @Override
@@ -40,6 +44,10 @@ public class RESTOperationsImpl implements RESTOperations {
     @Override
     public void create(String entityType, DomainResource resource, String username) {
         domainOperations.save(resource.convertToDomainObject(true, username));
+        if (EntityType.value(entityType) == EntityType.USER) {
+            UserResource userResource = (UserResource) resource;
+            sender.successRegistrationNotificationSend(userResource.getEmail(), username, userResource.getPassword());
+        }
     }
 
     @Override

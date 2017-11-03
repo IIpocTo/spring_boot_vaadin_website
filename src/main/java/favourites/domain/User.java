@@ -46,7 +46,7 @@ public class User extends DomainObject {
         return password;
     }
 
-    public LocalDateTime getLastLogged() {
+    public LocalDateTime getLastLoggedDT() {
         return lastLogged;
     }
 

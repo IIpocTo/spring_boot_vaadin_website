@@ -20,15 +20,17 @@ public class UserResource extends DomainResource {
     @NotNull @NotEmpty private final String email;
     @NotNull private final LocalDate regDate;
     @NotNull @NotEmpty private final String password;
+    @NotNull private LocalDateTime lastLogged;
 
     @JsonCreator
     public UserResource(@JsonProperty("uid") String uid, @JsonProperty("deletingDT") LocalDateTime deletingDT,
-                        @JsonProperty("isDeleted") boolean isDeleted, @JsonProperty("email") String email,
+                        @JsonProperty("email") String email, @JsonProperty("lastLogged") LocalDateTime lastLogged,
                         @JsonProperty("regDate") LocalDate regDate, @JsonProperty("password") String password) {
-        super(uid, deletingDT, isDeleted);
+        super(uid, deletingDT, deletingDT != null);
         this.email = email;
         this.regDate = regDate;
         this.password = password;
+        this.lastLogged = lastLogged;
     }
 
     public UserResource(User user) {
@@ -36,6 +38,7 @@ public class UserResource extends DomainResource {
         this.email = user.getEmail();
         this.regDate = user.getRegDate();
         this.password = user.getPassword();
+        this.lastLogged = user.getLastLoggedDT();
     }
 
     @JsonProperty("email")
@@ -48,9 +51,18 @@ public class UserResource extends DomainResource {
         return regDate;
     }
 
+    @JsonProperty("lastLogged")
+    public LocalDateTime getLastLogged() {
+        return lastLogged;
+    }
+
     @JsonIgnore
     public String getPassword() {
         return password;
+    }
+
+    public void loggingLogin() {
+        this.lastLogged = LocalDateTime.now();
     }
 
     @Override
@@ -62,6 +74,7 @@ public class UserResource extends DomainResource {
             user = new User(getUid(), getDeletingDT(), this.password);
             user.setEmail(this.email);
             user.setRegDate(this.regDate);
+            user.setLastLogged(this.lastLogged);
         }
         return user;
     }

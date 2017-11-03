@@ -57,6 +57,8 @@ public class DomainOperationsImpl implements DomainOperations {
     @Override
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void save(DomainObject domain) {
+        if (findById(EntityType.value(domain.getEntityName()), domain.getUid()) != null)
+            throw new IllegalStateException("Entity with this identifier already exists! Try another one.");
         if (domain instanceof Favourite) {
             Favourite favourite = (Favourite) domain;
             final LocalDateTime deletingDT = favourite.getDeletingDT();
@@ -78,7 +80,7 @@ public class DomainOperationsImpl implements DomainOperations {
                ps.setDate(3, Date.valueOf(user.getRegDate()));
                ps.setString(4, user.getPassword());
                ps.setTimestamp(5, deletingDT == null ? null : Timestamp.valueOf(deletingDT));
-               ps.setTimestamp(6, user.getLastLogged() == null ? null : Timestamp.valueOf(user.getLastLogged()));
+               ps.setTimestamp(6, user.getLastLoggedDT() == null ? null : Timestamp.valueOf(user.getLastLoggedDT()));
             });
         }
     }
@@ -105,8 +107,8 @@ public class DomainOperationsImpl implements DomainOperations {
                 if (!Objects.equals(oldUser.getPassword(), currentUser.getPassword())) {
                     fields.put(UserMapper.PASSWORD_FIELD, currentUser.getPassword());
                 }
-                if (!Objects.equals(oldUser.getLastLogged(), currentUser.getLastLogged())) {
-                    fields.put(UserMapper.LAST_LOGGED_FIELD, currentUser.getLastLogged());
+                if (!Objects.equals(oldUser.getLastLoggedDT(), currentUser.getLastLoggedDT())) {
+                    fields.put(UserMapper.LAST_LOGGED_FIELD, currentUser.getLastLoggedDT());
                 }
                 break;
             case FAVOURITE:
