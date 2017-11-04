@@ -29,7 +29,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = domainOperations.findById(EntityType.USER, username);
-        if (user == null) throw new UsernameNotFoundException(username);
+        if (user == null) throw new UsernameNotFoundException(String.format("Username not found - %s", username));
         return new org.springframework.security.core.userdetails.User(username, user.getPassword(), authorities);
     }
 
