@@ -4,11 +4,13 @@ buildscript {
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:1.5.8.RELEASE")
+        classpath("io.spring.gradle:dependency-management-plugin:1.0.3.RELEASE")
     }
 }
 
 apply plugin: 'java'
 apply plugin: 'org.springframework.boot'
+apply plugin: "io.spring.dependency-management"
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
@@ -17,11 +19,18 @@ repositories {
     mavenCentral()
 }
 
+dependencyManagement {
+    imports {
+        mavenBom 'com.vaadin:vaadin-bom:8.1.6'
+    }
+}
+
 dependencies {
     compile("org.springframework.boot:spring-boot-starter-web")
     compile("org.springframework.boot:spring-boot-starter-security")
     compile("org.springframework.boot:spring-boot-starter-jdbc")
     compile("org.springframework.boot:spring-boot-starter-mail")
+    compile("com.vaadin:vaadin-spring-boot-starter")
     compile('commons-dbcp:commons-dbcp:1.4')
     compile('javax.inject:javax.inject:1')
     runtime("org.postgresql:postgresql:42.1.4")
